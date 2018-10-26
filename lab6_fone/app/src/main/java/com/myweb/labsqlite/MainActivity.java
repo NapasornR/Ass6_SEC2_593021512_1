@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
-    private void createStudent(String id, String name,String track){
-        db.insertStudent(id, name,track);
+    private void createStudent(String id, String name){
+        db.insertStudent(id, name);
         Student student = db.getStudent(id);
         if(student != null){
             studentList.add(0, student);
@@ -71,12 +71,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateStudent(String id, String name,String track, int position){
+    private void updateStudent(String id, String name, int position){
         Student student = studentList.get(position);
 
         student.setId(id);
         student.setName(name);
-        student.setTrack(track);
 
         db.updateStudent(student);
 
@@ -100,14 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText inputId = view.findViewById(R.id.edit_text_id);
         final EditText inputName = view.findViewById(R.id.edit_text_name);
-        final EditText inputTrack = view.findViewById(R.id.edit_text_track);
         TextView dialogTitle = view.findViewById(R.id.text_view_dialog_title);
         dialogTitle.setText(!shouldUpdate ? "New Student" : "Edit Student");
 
         if(shouldUpdate && student != null){
             inputId.setText(student.getId());
             inputName.setText(student.getName());
-            inputTrack.setText(student.getTrack());
         }
         alertDialogBuilderUserInput
                 .setCancelable(false)
@@ -136,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.dismiss();
                 }
                 if (shouldUpdate && student != null){
-                    updateStudent(inputId.getText().toString(),inputName.getText().toString(),inputTrack.getText().toString(),position);
+                    updateStudent(inputId.getText().toString(),inputName.getText().toString(),position);
                 }
                 else {
-                    createStudent(inputId.getText().toString(), inputName.getText().toString(),inputTrack.getText().toString());
+                    createStudent(inputId.getText().toString(), inputName.getText().toString());
                 }
             }
         });

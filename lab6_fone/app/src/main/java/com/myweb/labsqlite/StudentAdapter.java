@@ -18,13 +18,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView idTextView;
         public TextView nameTextView;
-        public TextView trackTextView;
 
         public MyViewHolder(View view) {
             super(view);
             idTextView = view.findViewById(R.id.text_view_id);
             nameTextView = view.findViewById(R.id.text_view_name);
-            trackTextView = view.findViewById(R.id.text_view_track);
         }
     }
 
@@ -45,9 +43,9 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
         Student student = studentList.get(position);
+
         myViewHolder.idTextView.setText(student.getId());
         myViewHolder.nameTextView.setText(student.getName());
-        myViewHolder.trackTextView.setText(student.getTrack());
     }
 
     @Override

@@ -31,13 +31,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public void insertStudent(String id, String student,String track){
+    public void insertStudent(String id, String student){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(Student.COLUMN_ID, id);
         values.put(Student.COLUMN_NAME, student);
-        values.put(Student.COLUMN_TRACK, track);
 
         db.insert(Student.TABLE_NAME, null, values);
         db.close();
@@ -47,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Student.TABLE_NAME,
-                new String[]{Student.COLUMN_ID, Student.COLUMN_NAME, Student.COLUMN_TRACK},
+                new String[]{Student.COLUMN_ID, Student.COLUMN_NAME},
                 Student.COLUMN_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null,null, null);
 
@@ -57,11 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         Student student = new Student(
                 cursor.getString(cursor.getColumnIndex(Student.COLUMN_ID)),
-                cursor.getString(cursor.getColumnIndex(Student.COLUMN_NAME)),
-                cursor.getString(cursor.getColumnIndex(Student.COLUMN_TRACK))
-
-
-                );
+                cursor.getString(cursor.getColumnIndex(Student.COLUMN_NAME)));
 
         cursor.close();
         return student;
@@ -80,8 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 Student student = new Student();
                 student.setId(cursor.getString(cursor.getColumnIndex(Student.COLUMN_ID)));
                 student.setName(cursor.getString(cursor.getColumnIndex(Student.COLUMN_NAME)));
-                student.setTrack(cursor.getString(cursor.getColumnIndex(Student.COLUMN_TRACK)));
-
                 students.add(student);
             } while (cursor.moveToNext());
         }
@@ -97,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         values.put(Student.COLUMN_ID, student.getId());
         values.put(Student.COLUMN_NAME, student.getName());
-        values.put(Student.COLUMN_TRACK, student.getTrack());
+
         return db.update(Student.TABLE_NAME, values, Student.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(student.getId())});
     }
